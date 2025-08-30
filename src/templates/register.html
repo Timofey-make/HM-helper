@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+    <form action="/doregister" method="post">
+        <div>
+            <label for="Login">Логин:</label>
+            <input type="text" id="Login" name="Login" required>
+        </div>
+        <div>
+            <label for="Password">Пароль:</label>
+            <input type="password" id="Password" name="Password" required>
+        </div>
+        <div>
+            <label for="Teacher">Преподаватель:</label>
+            <input type="checkbox" id="Teacher" name="Teacher" value="true">
+        </div>
+        <div>
+            <input type="submit" value="Зарегистрироваться">
+        </div>
+    </form>
+    <p>Уже есть аккаунт? <a href="/login">Войти</a></p>
+</body>
+</html>

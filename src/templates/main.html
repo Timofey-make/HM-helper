@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Каталог секций</title>
+</head>
+<body>
+    <h1>Каталог учебных секций</h1>
+
+    <ul>
+        {% for note in notes %}
+        <li>
+            <a href="/section_page?section_name={{ note | urlencode }}">{{ note }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% if teacher %}
+    <p>
+        <a href="/create_section">Создать новую секцию</a>
+    </p>
+    {% endif %}
+
+</body>
+</html>

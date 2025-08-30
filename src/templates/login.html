@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Вход</title>
+</head>
+<body>
+    <h1>Вход в систему</h1>
+    <form action="/dologin" method="post">
+        <div>
+            <label for="Login">Логин:</label>
+            <input type="text" id="Login" name="Login" required>
+        </div>
+        <div>
+            <label for="Password">Пароль:</label>
+            <input type="password" id="Password" name="Password" required>
+        </div>
+        <div>
+            <input type="submit" value="Войти">
+        </div>
+    </form>
+    <p>Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+</body>
+</html>
