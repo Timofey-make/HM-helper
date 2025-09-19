@@ -13,4 +13,13 @@ class User(Base):
     def __repr__(self) -> str:
         return f"User(id={self.id!r}, name={self.username!r}, password={self.password!r})"
 
+class Question(Base):
+    __tablename__ = "questions"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    subject: Mapped[str] = mapped_column(String(20))
+    title: Mapped[str] = mapped_column(String(30))
+    description: Mapped[str] = mapped_column(String(1000))
+    def __repr__(self) -> str:
+        return f"User(id={self.id!r}, name={self.username!r}, password={self.password!r})"
+
 engine = create_engine("sqlite:///users.db", echo=False)

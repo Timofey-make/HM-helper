@@ -77,6 +77,19 @@ async def dologin(
             print("Неверный логин или пароль")
             return RedirectResponse(url="/login", status_code=303)
 
+@app.get("/add", tags="Добавить вопрос")
+async def add(request: Request):
+    return templates.TemplateResponse("add_question.html", {"request": request})
+
+@app.post("/doadd", tags="Добавить вопрос")
+async def doadd(
+    request: Request,
+    subject: str = Form(...),
+    title: str = Form(...),
+    description: str = Form(...),
+):
+    print("Гойда")
+
 if __name__ == "__main__":
     init.Base.metadata.create_all(init.engine)
     uvicorn.run("main:app", reload=True)
