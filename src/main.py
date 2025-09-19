@@ -20,7 +20,10 @@ templates = Jinja2Templates(directory="templates")
 
 @app.get("/register", tags="Регистрация")
 async def register(request: Request):
-    return templates.TemplateResponse("register.html", {"request": request})
+    if request.cookies.get("id"):
+        return RedirectResponse(url="/", status_code=303)
+    else:
+        return templates.TemplateResponse("register.html", {"request": request})
 
 @app.post("/doregister", tags="Регистрация")
 async def doregister(
@@ -55,7 +58,10 @@ async def doregister(
 
 @app.get("/login", tags="Логин")
 async def login(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
+    if request.cookies.get("id"):
+        return RedirectResponse(url="/", status_code=303)
+    else:
+        return templates.TemplateResponse("login.html", {"request": request})
 
 @app.post("/dologin", tags="Логин")
 async def dologin(
@@ -79,7 +85,10 @@ async def dologin(
 
 @app.get("/add", tags="Добавить вопрос")
 async def add(request: Request):
-    return templates.TemplateResponse("add_question.html", {"request": request})
+    if request.cookies.get("id"):
+        return templates.TemplateResponse("add_question.html", {"request": request})
+    else:
+        return RedirectResponse(url="/login", status_code=303)
 
 @app.post("/doadd", tags="Добавить вопрос")
 async def doadd(
@@ -88,7 +97,20 @@ async def doadd(
     title: str = Form(...),
     description: str = Form(...),
 ):
-    print("Гойда")
+    with Session(init.engine) as conn:
+        question = init.Question(
+            owner=function.decrypt(request.cookies.get("username")),
+            subject=subject,
+            title=title,
+            description=description,
+        )
+        conn.add(question)
+        conn.commit()
+        return RedirectResponse(url="/", status_code=303)
+
+@app.get("/", tags="Главная")
+async def main(request: Request):
+    return {'hello': 'world'}
 
 if __name__ == "__main__":
     init.Base.metadata.create_all(init.engine)

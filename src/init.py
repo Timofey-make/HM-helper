@@ -16,6 +16,7 @@ class User(Base):
 class Question(Base):
     __tablename__ = "questions"
     id: Mapped[int] = mapped_column(primary_key=True)
+    owner: Mapped[str] = mapped_column(String(30))
     subject: Mapped[str] = mapped_column(String(20))
     title: Mapped[str] = mapped_column(String(30))
     description: Mapped[str] = mapped_column(String(1000))
