@@ -1,0 +1,38 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  border-radius: 5px;
+  box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
+  -webkit-box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
+  -moz-box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
+  background-color: #fff;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+.auth-title {
+  text-align: center;
+}
+.form-login,
+.form-password {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+.form-login-title,
+.form-password-title {
+  text-align: center;
+}
+
+
+
+

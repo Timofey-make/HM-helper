@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Регистрация</title>
 </head>
 <body>
-    <h1>Регистрация</h1>
-    <form action="/doregister" method="post">
+    <h1>Зарегистрироваться</h1>
+    {% if error %}
+        <div class="error-message" style="color: red; margin-bottom: 15px;">
+            {{ error }}
+        </div>
+    {% endif %}
+    <form method="post" action="/doregister">
         <div>
-            <label for="Login">Логин:</label>
-            <input type="text" id="Login" name="Login" required>
+            <label>Логин</label>
+            <input type="text" name="Login" required>
         </div>
         <div>
-            <label for="Password">Пароль:</label>
-            <input type="password" id="Password" name="Password" required>
+            <label>Пароль</label>
+            <input type="text" name="Password" required>
         </div>
-        <div>
-            <label for="Teacher">Преподаватель:</label>
-            <input type="checkbox" id="Teacher" name="Teacher" value="true">
-        </div>
-        <div>
-            <input type="submit" value="Зарегистрироваться">
-        </div>
+        <button type="submit">Зарегистрироваться</button>
     </form>
-    <p>Уже есть аккаунт? <a href="/login">Войти</a></p>
+
+    <div>
+        <a href="/login">Войти</a>
+    </div>
 </body>
 </html>
