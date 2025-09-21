@@ -98,19 +98,46 @@ async def doadd(
     description: str = Form(...),
 ):
     with Session(init.engine) as conn:
-        question = init.Question(
-            owner=function.decrypt(request.cookies.get("username")),
-            subject=subject,
-            title=title,
-            description=description,
-        )
-        conn.add(question)
+        stmt = select(init.Question).where(init.Question.title == title, init.Question.description == description)
+        data = conn.execute(stmt).fetchall()
+        if data:
+            print("Такой вопрос уже есть!")
+        else:
+            question = init.Question(
+                owner=function.decrypt(request.cookies.get("username")),
+                subject=subject,
+                title=title,
+                description=description,
+            )
+            conn.add(question)
         conn.commit()
         return RedirectResponse(url="/", status_code=303)
 
 @app.get("/", tags="Главная")
 async def main(request: Request):
-    return {'hello': 'world'}
+    if request.cookies.get("id"):
+        with Session(init.engine) as conn:
+            stmt = select(
+                init.Question.owner,
+                init.Question.subject,
+                init.Question.title,
+                init.Question.description
+            ).order_by(init.Question.id.desc())
+            data = conn.execute(stmt).fetchall()
+            result = []
+            for row in data:
+                result.append({
+                    "owner": row.owner,
+                    "subject": row.subject,
+                    "title": row.title,
+                    "description": row.description
+                })
+            return templates.TemplateResponse("main.html", {"request": request,
+                                                            "username": function.decrypt(request.cookies.get("username")),
+                                                            "result": result})
+    else:
+        return RedirectResponse(url="/login", status_code=303)
+
 
 if __name__ == "__main__":
     init.Base.metadata.create_all(init.engine)

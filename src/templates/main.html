@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', path='/auth.css') }}">
+</head>
+<body>
+<!--    <div class="login-button-container">-->
+<!--        <a href="/logout" class="login-button">Выйти</a>-->
+<!--    </div>-->
+    <h1>Добро пожаловать, {{ username }}</h1>
+    {% for note in result %}
+        <div>
+            <p><strong>Владелец:</strong> {{ note.owner }}
+            <p><strong>Предмет:</strong> {{ note.subject }}
+            <a href="#">{{ note.title }}</a>
+        </div>
+    {% endfor %}
+</body>
+</html>
