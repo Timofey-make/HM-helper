@@ -239,12 +239,15 @@ svg * {
 
 
 :root {
-    --color-dark: #000;
-    --color-light: #fff;
-    --color-light-gray: #F4F4F4;
-    --color-dark-gray: #888;
+    --color-blue-dark: #738290;
+    --color-blue-light: #A1B5D8;
+    --color-white: #fff;
+    --color-light: #FFFCF7;
+    --color-green-dark: #C2D8B9;
+    --color-green-light: #E4F0D0;
+    --color-red: #ff6970;
 
-    --border: 1px solid var(--color-dark);
+    --border: 1px solid var(--color-blue-dark);
 
     --font-family-base: 'Montserrat', sans-serif;
     --font-family-alternate: 'PlayfairDisplay', sans-serif;
@@ -257,10 +260,9 @@ svg * {
 
 body {
     font-family: var(--font-family-base);
-    color: var(--color-dark);
+    color: var(--color-blue-dark);
     font-size: 18px;
     line-height: 1.4;
-    background-color: var(--color-light-gray);
 }
 
 .container {
@@ -287,22 +289,52 @@ h1, h2, h3, h4, h5, h6 {
 .input {
   border: none;
   border-bottom: var(--border);
+  background-color: transparent;
   outline: 0;
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  color: var(--color-blue-dark)
+}
+
+.input:focus {
+  border-color: var(--color-dark-grey);
 }
 
 .btn { 
-  padding: 15px 20px;
-  border: 1px solid var(--color-dark);
+  padding: 14px;
+  width: 100%;
+  border-radius: 8px;
+  border: none;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--color-dark);
   text-transform: uppercase;
-  background-color: transparent;
+  background-color: var(--color-green-light);
+  color: var(--color-blue-dark);
   transition-duration: var(--transition-duration);
+  display: inline-block;
+  width: auto; 
 }
 
 .btn:hover {
-  background-color: var(--color-dark);
+  background-color: var(--color-green-dark);
   color: var(--color-light);
+}
+
+.link {
+  color: var(--color-blue-dark);
+  text-decoration: none;
+  transition-duration: var(--transition-duration);
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+  .btn {
+    font-size: 14px;
+    padding: 12px;
+  }
 }

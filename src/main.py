@@ -18,6 +18,15 @@ app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
 
+@app.get("/logout", tags="Выход")
+async def logout(request: Request):
+    # Создаем редирект-ответ
+    redirect = RedirectResponse(url="/login", status_code=303)
+    # Устанавливаем куки
+    redirect.delete_cookie(key="id")
+    redirect.delete_cookie(key="username")
+    return redirect
+
 @app.get("/register", tags="Регистрация")
 async def register(request: Request):
     if request.cookies.get("id"):
@@ -28,20 +37,21 @@ async def register(request: Request):
 @app.post("/doregister", tags="Регистрация")
 async def doregister(
     request: Request,
-    Login: str = Form(...),
-    Password: str = Form(...),
+    name: str = Form(...),
+    login: str = Form(...),
+    password: str = Form(...),
 ):
-    print(Login, Password)
     with Session(init.engine) as conn:
-        stmt = select(init.User).where(init.User.username == Login)
+        stmt = select(init.User).where(init.User.username == login)
         data = conn.execute(stmt).fetchall()
         if data:
             error_msg = "Пользователь с таким именем уже есть"
             return RedirectResponse(url="/register", status_code=303)
         else:
             user = init.User(
-                username=Login,
-                password=function.hash_password(Password)
+                name=name,
+                username=login,
+                password=function.hash_password(password)
             )
             conn.add(user)
             conn.commit()
@@ -61,18 +71,18 @@ async def login(request: Request):
     if request.cookies.get("id"):
         return RedirectResponse(url="/", status_code=303)
     else:
-        return templates.TemplateResponse("login.html", {"request": request})
+        return templates.TemplateResponse("auth.html", {"request": request})
 
 @app.post("/dologin", tags="Логин")
 async def dologin(
     request: Request,
-    Login: str = Form(...),
-    Password: str = Form(...)
+    auth: str = Form(...),
+    password: str = Form(...)
 ):
     with Session(init.engine) as conn:
-        stmt = select(init.User).where(init.User.username == Login)
+        stmt = select(init.User).where(init.User.username == auth)
         data = conn.execute(stmt).fetchall()
-        if data and data[0][0].password == function.hash_password(Password):
+        if data and data[0][0].password == function.hash_password(password):
             # Создаем редирект-ответ
             redirect = RedirectResponse(url="/", status_code=303)
             # Устанавливаем куки

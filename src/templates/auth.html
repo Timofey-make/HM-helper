@@ -5,28 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', path='/main.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', path='/auth.css') }}">
-    <title>Регистрация</title>
+    <title>Вход в систему</title>
 </head>
 <body>
     <div class="auth-container">
         <div class="auth">
-            <h1 class="auth-title">Регистрация</h1>
-            <form class="auth-form" method="post" action="dorigister">
-                <div class="form-name">
-                    <label class="form-login-title" for="name">Имя</label>
-                    <input class="input" id="name" name="name" type="text" placeholder="Введите имя" required>
-                </div>
+            <h1 class="auth-title">Вход</h1>
+            <form class="auth-form" method="POST" action="/dologin">
                 <div class="form-login">
                     <label class="form-login-title" for="login">Логин</label>
-                    <input class="input" id="login" name="login" type="text" placeholder="Введите логин" required>
+                    <input class="input" id="login" name="auth" type="text" placeholder="Введите логин" required>
                 </div>
                 <div class="form-password">
                     <label class="form-password-title" for="password">Пароль</label>
                     <input class="input" id="password" name="password" type="password" placeholder="Введите пароль" required>
                 </div>
-                <button class="btn" type="submit">Зарегистрироваться</button>
+                <button class="btn" type="submit">Войти</button>
             </form>
-            <a class="auth-link link" href="/login">Есть аккаунт? Вход</a>
+            <a class="auth-link link" href="/register">Регистрация</a>
         </div>
     </div>
 </body>

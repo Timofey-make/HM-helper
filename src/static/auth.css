@@ -2,37 +2,56 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* чтобы контент не прилипал к краям на мобилках */
+}
+
+.auth-container {
+  width: 100%;
+  max-width: 400px;
 }
 
 .auth {
   display: flex;
   flex-direction: column;
-  padding: 25px;
-  border-radius: 5px;
-  box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
-  -webkit-box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
-  -moz-box-shadow: -3px -1px 28px -8px rgba(0,0,0,0.74);
-  background-color: #fff;
+  padding: clamp(40px, 6vw, 75px) clamp(20px, 5vw, 35px);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  background-color: var(--color-light);
+  row-gap: 20px;
 }
+
+.auth-title {
+  text-align: center;
+  font-size: clamp(22px, 5vw, 32px);
+}
+
 .auth-form {
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 20px;
 }
-.auth-title {
+
+.auth-link {
   text-align: center;
+  display: block;
 }
-.form-login,
-.form-password {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
+
+.error {
+  text-align: center;
+  color: var(--color-red);
 }
-.form-login-title,
+
+.form-login-title, 
 .form-password-title {
   text-align: center;
+  display: block;
 }
 
-
-
-
+@media (max-width: 480px) {
+  .auth {
+    padding: 30px 20px;
+  }
+  .auth-title {
+    font-size: 20px;
+  }
+}
