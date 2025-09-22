@@ -14,9 +14,13 @@ import function
 import sqlite3
 import uvicorn
 
+import os
+from pathlib import Path
+
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="static"), name="static")
-templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+templates = Jinja2Templates(directory=BASE_DIR / "templates")
 
 @app.get("/logout", tags="Выход")
 async def logout(request: Request):
@@ -56,14 +60,14 @@ async def doregister(
             conn.add(user)
             conn.commit()
     conn = Session(init.engine)
-    stmt = select(init.User).where(init.User.username == Login)
+    stmt = select(init.User).where(init.User.username == login)
     id = conn.execute(stmt).fetchall()[0][0].id
     conn.commit()
     conn.close()
     redirect = RedirectResponse(url="/", status_code=303)
     # Устанавливаем куки
     redirect.set_cookie(key="id", value=str(id))
-    redirect.set_cookie(key="username", value=function.encrypt(Login))
+    redirect.set_cookie(key="username", value=function.encrypt(login))
     return redirect
 
 @app.get("/login", tags="Логин")
@@ -128,6 +132,7 @@ async def main(request: Request):
     if request.cookies.get("id"):
         with Session(init.engine) as conn:
             stmt = select(
+                init.Question.id,
                 init.Question.owner,
                 init.Question.subject,
                 init.Question.title,
@@ -137,6 +142,7 @@ async def main(request: Request):
             result = []
             for row in data:
                 result.append({
+                    "id": row.id,
                     "owner": row.owner,
                     "subject": row.subject,
                     "title": row.title,
@@ -145,6 +151,24 @@ async def main(request: Request):
             return templates.TemplateResponse("main.html", {"request": request,
                                                             "username": function.decrypt(request.cookies.get("username")),
                                                             "result": result})
+    else:
+        return RedirectResponse(url="/login", status_code=303)
+    
+@app.get("/question/{note_id}")
+async def question_page(request: Request, note_id: int):
+    if request.cookies.get("id"):
+        with Session(init.engine) as conn:
+            stmt = select(
+                init.Question.owner,
+                init.Question.subject,
+                init.Question.title,
+                init.Question.description
+            ).where(init.Question.id == note_id)
+            data = conn.execute(stmt).fetchall()
+            result = [data[0].owner, data[0].subject, data[0].title, data[0].description]
+            conn.commit()
+            return templates.TemplateResponse("question.html", {"request": request,
+                                                                "result": result})
     else:
         return RedirectResponse(url="/login", status_code=303)
 

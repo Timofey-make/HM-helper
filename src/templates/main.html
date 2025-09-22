@@ -15,9 +15,12 @@
         <div>
             <p><strong>Владелец:</strong> {{ note.owner }}
             <p><strong>Предмет:</strong> {{ note.subject }}
-            <a href="#">{{ note.title }}</a>
+            <a href="/question/{{ note.id }}">
+                {{ note.title }}
+            </a>
         </div>
     {% endfor %}
 <a href="/logout">выйти</a>
+<a href="/add">Добавить пароль</a>
 </body>
 </html>
